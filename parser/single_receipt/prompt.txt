@@ -1,0 +1,10 @@
+Given the following text extracted from receipt message: {}, I want you to retrieve information in the strictly following format: 
+total amount: derived total amount from the text.
+subtotal amount: derived subtotal amount from the text.
+Name of Store: derived Name of Store from the text.
+Payment type: derived Payment type from the text.
+Receipt Date: when the receipt was processed.
+Location: The location where receipt was handled.
+List of the products found the in receipt, like this - list of products: product#1,product#2,product#3 and so on. make sure that the product list (products: product#1,product#2,product#3) is in one line.
+Finally, for any of the queries above the value should be None if you have not found specified object in the provided text.
+
