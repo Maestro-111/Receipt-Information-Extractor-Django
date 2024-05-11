@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Single Receipt Parser</title>
+    <title>Main Menu</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -35,7 +35,7 @@
 
         input[type="submit"] {
             background-color: #4CAF50;
-            color: white; 
+            color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
@@ -64,7 +64,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             display:flex;
             flex-direction: column;
-            align-items: center; 
+            align-items: center;
         }
 
         .resized-image {
@@ -72,26 +72,26 @@
             height: 300px;
             border-radius: 4px;
         }
+        .button-container {
+          display: flex;
+          justify-content: center;
+        }
+        .button-container form {
+          margin-right: 10px;
+        }
     </style>
 </head>
 <body>
-    <h1>Upload Your Receipt</h1>
-    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_receipt' %}">
-        {% csrf_token %}
-        <input type="file" name="receipt_image" accept="image/*" required>
-        <input type="submit" value="Upload Receipt">
-    </form>
+  <h1>Welcome to the Menu Page</h1>
 
-    <h2>Image Examples:</h2>
-    <div class="examples-wrapper">
-        <div class="example-container">
-            <h3>Example of a good image</h3>
-            <img src= {{good_path}} alt="Good Image" class="resized-image">
-        </div>
-        <div class="example-container">
-            <h3>Example of a bad image</h3>
-            <img src= {{bad_path}} alt="Bad Image" class="resized-image">
-        </div>
-    </div>
+  <div class="button-container">
+    <form action="{% url 'parse_single' %}" method="get">
+      <button type="submit">Single Parsing</button>
+    </form>
+    <form action="{% url 'parse_multiple' %}" method="get">
+      <button type="submit">Multiple Parsing</button>
+    </form>
+  </div>
+
 </body>
 </html>

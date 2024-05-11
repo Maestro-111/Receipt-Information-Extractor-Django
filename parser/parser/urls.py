@@ -19,6 +19,9 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('single_receipt.urls')),
+    path('single_receipt/', include('single_receipt.urls')),
+    path('multiple_receipt/',include('multiple_receipt.urls')),
+    path('', include('menu.urls'))
+
 ]
 

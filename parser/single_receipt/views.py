@@ -82,6 +82,7 @@ def upload_receipt(request):  # Updated function name
 
         run_craft()
 
+
         delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR,'test'))
         delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR, 'result'))
         delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR, 'tets_boxes_from_craft/coords'))
@@ -104,6 +105,7 @@ def upload_receipt(request):  # Updated function name
         if len(txt_output)>0:
 
             extarcted_text,product_text = text_extraction(txt_output) # dict
+
 
             general_info = pd.DataFrame(extarcted_text)
             product_info = pd.DataFrame(product_text)
