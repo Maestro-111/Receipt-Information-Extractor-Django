@@ -1,4 +1,4 @@
-# OCR with Flask Web App
+# OCR with Django Web App
 
 
 ## Abstract
@@ -39,12 +39,9 @@ Links:
 
 ## Evaluations
 
-Each time user upload their photo, program stores the resulting table in a folder. 
-unit testing.py merges all the outputs into one table and compares it with database.xlsx to log out the errors.
 
-
-- Evaluation Metrics: Accuracy via using unit testing.py.
-- Limitations: Dependency on image quality. Also, the web app is not publicly available.
+- Evaluation Metrics: Accuracy (to do unit testing).
+- Limitations: Dependency on image quality.
 
 ## TO DO
 
