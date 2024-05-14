@@ -34,7 +34,7 @@ def index(request):
 
 
 
-def download_receipt(request):
+def download_single_receipt(request):
     output_path = request.GET.get('output_path')
 
     if output_path:
@@ -50,9 +50,9 @@ def download_receipt(request):
         return HttpResponse("Error downloading file.")
 
 
-def download_file(request, filename):
+def download_file_single(request, filename):
 
-    file_path = os.path.join(settings.EXPORTS_DIR, filename)
+    file_path = os.path.join(settings.SINGLE_EXPORTS_DIR, filename)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as f:
             response = HttpResponse(f.read(), content_type='application/octet-stream')
@@ -122,7 +122,7 @@ def upload_receipt(request):  # Updated function name
             with pd.ExcelWriter(output_path, engine='openpyxl', mode='a') as writer:
                 product_info.to_excel(writer, sheet_name='product_info', index=False)
 
-            return HttpResponseRedirect(reverse('download_receipt') + f'?output_path={output_path}')
+            return HttpResponseRedirect(reverse('download_single_receipt') + f'?output_path={output_path}')
 
         else:
             context = {

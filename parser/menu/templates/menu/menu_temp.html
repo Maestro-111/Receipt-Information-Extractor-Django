@@ -14,9 +14,10 @@
             color: #333;
         }
 
-        h1, h2 {
+        h1, h2, h3 {
             text-align: center;
         }
+
 
         form {
             text-align: center;
@@ -94,13 +95,7 @@
 </head>
 <body>
   <h1>Welcome to the Menu Page</h1>
-
-  <div class="image-container">
-      <p>FROM</p>
-    <img src="{{receipt}}" alt="Receipt Image" class="resized-image">
-      <p>TO</p>
-    <img src="{{information}}" alt="Information Image" class="resized-image">
-  </div>
+  <h3>Get useful insights about your spending's in just few clicks</h3>
 
   <div class="button-container">
     <form action="{% url 'parse_single' %}" method="get">

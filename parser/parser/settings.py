@@ -28,8 +28,8 @@ MULTIPLE_TEST_ROOT = os.path.join(BASE_DIR, 'multiple_receipt', 'test')
 SINGLE_RECEIPT_DIR = 'C:/receipt_analyzer/parser/single_receipt'
 MULTIPLE_RECEIPT_DIR = 'C:/receipt_analyzer/parser/multiple_receipt'
 
-EXPORTS_DIR = os.path.join(SINGLE_RECEIPT_DIR,'exports')
-
+SINGLE_EXPORTS_DIR = os.path.join(SINGLE_RECEIPT_DIR,'exports')
+MULTIPLE_EXPORTS_DIR = os.path.join(MULTIPLE_RECEIPT_DIR,'exports')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
