@@ -47,7 +47,8 @@ Links:
 
 1. Work on GPT prompt. Not accurate in identifying address.
 2. Add unit testing
-3. Update uploading multiple receipts feature
+3. Code refactoring for multiple and single receipts parsing
+4. Integrate information save to SQL
 
 
 
