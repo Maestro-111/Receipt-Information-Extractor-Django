@@ -4,15 +4,23 @@ from openai import OpenAI
 import os
 from parser.settings import SINGLE_RECEIPT_DIR
 from  django.conf import settings
+import shutil
 
 
-def run_craft():
+def run_craft(path, multiple=False, mul_dir='/txt_output'):
     python_path = r'C:/Python39/python.exe'
-    command = [python_path, "C:/Custom-Craft/test.py", "--trained_model", "C:/Custom-Craft/craft_mlt_25k.pth",
-               "--test_folder", "test/", "--res_txt_path", "text_output.txt",
-               "--dir_path", SINGLE_RECEIPT_DIR]
+
+    if not multiple:
+        command = [python_path, "C:/Custom-Craft/test.py", "--trained_model", "C:/Custom-Craft/craft_mlt_25k.pth",
+                   "--test_folder", "test/", "--res_txt_path", "text_output.txt",
+                   "--dir_path", path]
+    else:
+        command = [python_path, "C:/Custom-Craft/test.py", "--trained_model", "C:/Custom-Craft/craft_mlt_25k.pth",
+                   "--test_folder", "test/", "--res_txt_path", "text_output.txt",
+                   "--dir_path", path, "--multiple","True",'--mul_dir',mul_dir]
 
     subprocess.run(command)
+
 
 def text_extraction(text):
 

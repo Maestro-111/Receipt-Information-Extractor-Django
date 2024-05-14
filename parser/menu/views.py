@@ -7,7 +7,13 @@ from django.conf import settings
 
 
 def main_menu(request):
-    return render(request,'menu/menu_temp.html')
+
+    context = {
+        'receipt':'/static/receipt_image.jpg',
+        'information':'/static/data.png'
+    }
+
+    return render(request,'menu/menu_temp.html',context)
 
 
 def parse_single(request):
@@ -21,3 +27,7 @@ def parse_multiple(request):
     multiple_receipt_url = reverse('multiple_receipt')
 
     return redirect(multiple_receipt_url)
+
+
+def page_not_found(request, exception):
+    return HttpResponseNotFound("<h1> No such Page!! </h1>")

@@ -10,6 +10,7 @@ import subprocess
 import pandas as pd
 from ocr import run_craft
 from ocr import text_extraction
+from create_folders import create_folders
 
 
 def delete_files_in_directory(directory_path):
@@ -65,29 +66,30 @@ def download_file(request, filename):
 def upload_receipt(request):  # Updated function name
     if request.method == 'POST' and request.FILES.get('receipt_image'):
 
-        receipt_image = request.FILES['receipt_image']
-        file_path = os.path.join(settings.MEDIA_ROOT,receipt_image.name)
+        create_folders(settings.SINGLE_RECEIPT_DIR)
 
-        test_path = os.path.join(settings.TEST_ROOT, receipt_image.name)
+        receipt_image = request.FILES['receipt_image']
+        file_path = os.path.join(settings.SINGLE_MEDIA_ROOT,receipt_image.name)
+
+        test_path = os.path.join(settings.SINGLE_TEST_ROOT, receipt_image.name)
 
         with open(file_path, 'wb+') as destination:
             for chunk in receipt_image.chunks():
                 destination.write(chunk)
 
-        images = os.listdir(settings.MEDIA_ROOT)
+        images = os.listdir(settings.SINGLE_MEDIA_ROOT)
 
         for image in images:
-            if image == receipt_image.name:
-                shutil.copy(file_path, test_path)
+            shutil.copy(file_path, test_path)
 
-        run_craft()
+        run_craft(settings.SINGLE_RECEIPT_DIR)
 
 
         delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR,'test'))
         delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR, 'result'))
-        delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR, 'tets_boxes_from_craft/coords'))
-        delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR, 'tets_boxes_from_craft/imgs'))
-
+        delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR, 'test_boxes_from_craft/coords'))
+        delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR, 'test_boxes_from_craft/imgs'))
+        delete_files_in_directory(os.path.join(settings.SINGLE_RECEIPT_DIR, 'uploads'))
 
         with open(os.path.join(settings.SINGLE_RECEIPT_DIR,'text_output.txt'), 'r') as file:
             lines = file.readlines()

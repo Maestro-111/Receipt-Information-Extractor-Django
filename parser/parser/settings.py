@@ -17,9 +17,17 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'single_receipt', 'uploads')
-TEST_ROOT = os.path.join(BASE_DIR, 'single_receipt', 'test')
+
+SINGLE_MEDIA_ROOT = os.path.join(BASE_DIR, 'single_receipt', 'uploads')
+SINGLE_TEST_ROOT = os.path.join(BASE_DIR, 'single_receipt', 'test')
+
+MULTIPLE_MEDIA_ROOT = os.path.join(BASE_DIR, 'multiple_receipt', 'uploads')
+MULTIPLE_TEST_ROOT = os.path.join(BASE_DIR, 'multiple_receipt', 'test')
+
+
 SINGLE_RECEIPT_DIR = 'C:/receipt_analyzer/parser/single_receipt'
+MULTIPLE_RECEIPT_DIR = 'C:/receipt_analyzer/parser/multiple_receipt'
+
 EXPORTS_DIR = os.path.join(SINGLE_RECEIPT_DIR,'exports')
 
 
@@ -35,7 +43,7 @@ SECRET_KEY = 'django-insecure-@#qf73q7$-_b93cp60osb!7gd#awg30u9+djpvv+2d1m_ui52@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
