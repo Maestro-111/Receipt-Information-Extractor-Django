@@ -5,6 +5,7 @@ import os
 from parser.settings import SINGLE_RECEIPT_DIR
 from  django.conf import settings
 import shutil
+import re
 
 
 def run_craft(path, multiple=False, mul_dir='/txt_output'):
@@ -29,7 +30,7 @@ def text_extraction(text):
         api_key=os.environ.get("OPENAI_API_KEY"),
     )
 
-    with open(os.path.join(settings.SINGLE_RECEIPT_DIR,'prompt.txt'), 'r') as file:
+    with open(os.path.join(settings.BASE_DIR,'prompt.txt'), 'r') as file:
         message_template = file.read()
 
     message = message_template.format(text)
@@ -41,7 +42,7 @@ def text_extraction(text):
                 "content": message,
             }
         ],
-        model="gpt-4",
+        model="gpt-4o",
     )
 
     resp = chat_completion.choices[0].message.content
@@ -57,6 +58,7 @@ def text_extraction(text):
     date = None # 4
     address = None # 5
     products = [] # 6
+
     dumb_names = []
 
     for i in range(len(resp)):
@@ -67,17 +69,17 @@ def text_extraction(text):
         except ValueError:
             continue
 
-        if i == 0:
+        if i == 0 and not re.findall(r'\bNone\b',value):
             total = value
-        elif i == 1:
+        elif i == 1 and not re.findall(r'\bNone\b',value):
             subtotal = value
-        elif i == 2:
+        elif i == 2 and not re.findall(r'\bNone\b',value):
             name_of_store = value
-        elif i == 3:
+        elif i == 3 and not re.findall(r'\bNone\b',value):
             pay_type = value
-        elif i == 4:
+        elif i == 4 and not re.findall(r'\bNone\b',value):
             date = value
-        elif i == 5:
+        elif i == 5 and not re.findall(r'\bNone\b',value):
             address = value
         else:
             value = value.split(',')
@@ -96,3 +98,4 @@ def text_extraction(text):
     data2 = {'product_count':dumb_names, 'product_name':products}
 
     return data1,data2
+

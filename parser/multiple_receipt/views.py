@@ -8,8 +8,12 @@ import os
 import shutil
 from ocr import run_craft
 from ocr import text_extraction
+import re
 from  create_folders import create_folders
 import pandas as pd
+from .models import Receipt
+from datetime import datetime
+from django.db.models import Q
 
 def delete_files_in_directory(directory_path):
     files = os.listdir(directory_path)
@@ -111,7 +115,6 @@ def upload_multiple_receipts(request):
 
         delete_files_in_directory(os.path.join(settings.MULTIPLE_RECEIPT_DIR, 'txt_output'))
 
-
         general = pd.DataFrame()
         products = pd.DataFrame()
 
@@ -121,7 +124,9 @@ def upload_multiple_receipts(request):
             name = images[i]
 
             if len(text)>0:
+
                 extarcted_text, product_text = text_extraction(text)
+
 
                 general_info = pd.DataFrame(extarcted_text)
                 product_info = pd.DataFrame(product_text)
@@ -137,6 +142,54 @@ def upload_multiple_receipts(request):
         general.reset_index(drop=True,inplace=True)
         products.reset_index(drop=True, inplace=True)
 
+
+        for row in general.iterrows():
+
+            series = row[1]
+            total,subtotal,store,payment_type,date,address,image_name = series
+            image_id = image_name[:-4]
+
+            try:
+                total = float(total)
+            except ValueError:
+                total = None
+
+            try:
+                subtotal = float(subtotal)
+            except ValueError:
+                subtotal = None
+
+            if date is not None:
+                try:
+                    date = datetime.strptime(date, '%d/%m/%y').date()
+                except ValueError:
+                    date = None
+
+            data_to_save = {
+                'image_id': int(image_id),
+                'total': total,
+                'subtotal': subtotal,
+                'store': store,
+                'payment_type': payment_type,
+                'date': date,
+                'address': address
+            }
+
+            print(data_to_save)
+
+
+            existing_receipt = Receipt.objects.filter(image_id=data_to_save['image_id']).first()
+
+            if existing_receipt:
+                print(f"Receipt with image_id {image_id} already exists.")
+                print(existing_receipt)
+            else:
+                print(f"New receipt with image_id {image_id}.")
+
+            instance = Receipt(**data_to_save)
+            instance.save()
+
+
         output_path = os.path.join(settings.MULTIPLE_RECEIPT_DIR, f'exports/output.xlsx')
 
         with pd.ExcelWriter(output_path, engine='xlsxwriter') as writer:
@@ -149,3 +202,5 @@ def upload_multiple_receipts(request):
 
     else:
         return HttpResponse(f"error")
+
+

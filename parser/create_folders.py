@@ -21,8 +21,5 @@ def create_folders(path):
     create_folder_if_not_exists(os.path.join(path, "test"))
     create_folder_if_not_exists(os.path.join(path, "result"))
 
-    with open('single_receipt/exports/number.txt', 'w') as file:
-        file.write(f'{0}')
-
 if __name__ == '__main__':
     create_folders()

@@ -16,6 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 MEDIA_URL = '/media/'
 
 SINGLE_MEDIA_ROOT = os.path.join(BASE_DIR, 'single_receipt', 'uploads')
@@ -25,8 +26,8 @@ MULTIPLE_MEDIA_ROOT = os.path.join(BASE_DIR, 'multiple_receipt', 'uploads')
 MULTIPLE_TEST_ROOT = os.path.join(BASE_DIR, 'multiple_receipt', 'test')
 
 
-SINGLE_RECEIPT_DIR = 'C:/receipt_analyzer/parser/single_receipt'
-MULTIPLE_RECEIPT_DIR = 'C:/receipt_analyzer/parser/multiple_receipt'
+SINGLE_RECEIPT_DIR = os.path.join(BASE_DIR,'single_receipt')
+MULTIPLE_RECEIPT_DIR = os.path.join(BASE_DIR,'multiple_receipt')
 
 SINGLE_EXPORTS_DIR = os.path.join(SINGLE_RECEIPT_DIR,'exports')
 MULTIPLE_EXPORTS_DIR = os.path.join(MULTIPLE_RECEIPT_DIR,'exports')
