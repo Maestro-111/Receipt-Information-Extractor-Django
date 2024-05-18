@@ -21,7 +21,7 @@ The application is wrapped into a simple Django app.
 2. Create venv with this directory
 3. activate venv
 4. Install the requirements from requirements.txt
-5. Run Django Configuration
+5. Run Django Configuration (manage.py runserver)
 6. Upload any photo from sample data folder (* need to add) to the website. 
 7. wait and download the resulting Excel file
 
@@ -46,9 +46,8 @@ Links:
 ## TO DO
 
 1. Work on GPT prompt. Not accurate in identifying address.
-2. Add unit testing
-3. Code refactoring for multiple and single receipts parsing
-4. Integrate information save to SQL
+2. Add unit testing.
+3. Add sample receipt images.
 
 
 
