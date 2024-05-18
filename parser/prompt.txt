@@ -1,9 +1,9 @@
 Given the following text extracted from receipt message: {}, I want you to retrieve information in the STRICTLY following format: 
-total amount: derived total amount from the text.
-subtotal amount: derived subtotal amount from the text.
+total amount: derived total amount from the text. If it is float, make sure to place a dot between numbers, e.g. 14.35 not 14,35.
+subtotal amount: derived subtotal amount from the text. If it is float, make sure to place a dot between numbers, e.g. 14.35 not 14,35.
 Name of Store: derived Name of Store from the text.
 Payment type: derived Payment type from the text.
-Receipt Date: when the receipt was processed.
+Receipt Date: when the receipt was processed. Report date in this format: dd/mm/yyyy
 Location: The location where receipt was handled.
 List of the products found the in receipt, like this - list of products: product#1,product#2,product#3 and so on. make sure that the product list (products: product#1,product#2,product#3) is in one line.
 Finally, for any of the queries above the value SHOULD BE None if you have not found specified object in the provided text.

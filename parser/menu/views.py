@@ -16,11 +16,6 @@ def main_menu(request):
     return render(request,'menu/menu_temp.html',context)
 
 
-def parse_single(request):
-    single_receipt_url = reverse('single_receipt')
-    return redirect(single_receipt_url)
-
-
 
 def parse_multiple(request):
 

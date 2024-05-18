@@ -7,13 +7,15 @@ from django.conf import settings
 import os
 import shutil
 from ocr import run_craft
-from ocr import text_extraction
+from ocr import prepare_data_to_store
+from ocr import construct_dataframes
 import re
 from  create_folders import create_folders
 import pandas as pd
 from .models import Receipt
 from datetime import datetime
 from django.db.models import Q
+import logging
 
 def delete_files_in_directory(directory_path):
     files = os.listdir(directory_path)
@@ -30,7 +32,6 @@ def index(request):
     context = {
             'folder_path': '/static/folder.png',
     }
-
 
     return render(request,'multiple_receipt/parse_multiple.html',context)
 
@@ -97,88 +98,16 @@ def upload_multiple_receipts(request):
         delete_files_in_directory(os.path.join(settings.MULTIPLE_RECEIPT_DIR, 'test_boxes_from_craft/imgs'))
         delete_files_in_directory(os.path.join(settings.MULTIPLE_RECEIPT_DIR, 'uploads'))
 
-       # add parsing txt logic database?
-
         txt_path = os.path.join(settings.MULTIPLE_RECEIPT_DIR, 'txt_output')
+        general,products = construct_dataframes(txt_path,images)
 
-        txt_files = os.listdir(os.path.join(txt_path))
+        delete_files_in_directory(txt_path)
 
-        corpus = []
+        objects = list(prepare_data_to_store(general))
 
-        for file in txt_files:
-            print(file)
-            with open(os.path.join(txt_path, file), 'r') as file:
-                lines = file.readlines()
-                txt_output = [line.strip() for line in lines]
-                txt_output = [line for line in txt_output if line]
-                corpus.append(txt_output)
-
-        delete_files_in_directory(os.path.join(settings.MULTIPLE_RECEIPT_DIR, 'txt_output'))
-
-        general = pd.DataFrame()
-        products = pd.DataFrame()
-
-        for i in range(len(corpus)):
-
-            text  = corpus[i]
-            name = images[i]
-
-            if len(text)>0:
-
-                extarcted_text, product_text = text_extraction(text)
-
-
-                general_info = pd.DataFrame(extarcted_text)
-                product_info = pd.DataFrame(product_text)
-
-                general_info["Image Name"] = name
-                product_info["Image Name"] = name
-
-
-                general = pd.concat([general,general_info])
-                products = pd.concat([products, product_info])
-
-
-        general.reset_index(drop=True,inplace=True)
-        products.reset_index(drop=True, inplace=True)
-
-
-        for row in general.iterrows():
-
-            series = row[1]
-            total,subtotal,store,payment_type,date,address,image_name = series
-            image_id = image_name[:-4]
-
-            try:
-                total = float(total)
-            except ValueError:
-                total = None
-
-            try:
-                subtotal = float(subtotal)
-            except ValueError:
-                subtotal = None
-
-            if date is not None:
-                try:
-                    date = datetime.strptime(date, '%d/%m/%y').date()
-                except ValueError:
-                    date = None
-
-            data_to_save = {
-                'image_id': int(image_id),
-                'total': total,
-                'subtotal': subtotal,
-                'store': store,
-                'payment_type': payment_type,
-                'date': date,
-                'address': address
-            }
-
-            print(data_to_save)
-
-
-            existing_receipt = Receipt.objects.filter(image_id=data_to_save['image_id']).first()
+        for data_to_save in objects:
+            image_id = data_to_save['image_id']
+            existing_receipt = Receipt.objects.filter(image_id=image_id).first()
 
             if existing_receipt:
                 print(f"Receipt with image_id {image_id} already exists.")
@@ -188,7 +117,6 @@ def upload_multiple_receipts(request):
 
             instance = Receipt(**data_to_save)
             instance.save()
-
 
         output_path = os.path.join(settings.MULTIPLE_RECEIPT_DIR, f'exports/output.xlsx')
 

@@ -17,3 +17,5 @@ images_example
 text_output.txt
 output.xlsx
 db.sqlite3 
+txt_output
+*.log

@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'single_receipt.apps.SingleReceiptConfig',
     'menu.apps.MenuConfig',
     'multiple_receipt.apps.MultipleReceiptConfig'
 ]

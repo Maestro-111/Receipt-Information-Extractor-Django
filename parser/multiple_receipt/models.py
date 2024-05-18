@@ -8,5 +8,8 @@ class Receipt(models.Model):
     store = models.TextField(blank=True, null=True)
     payment_type = models.TextField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
+    location = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.image_id)
 

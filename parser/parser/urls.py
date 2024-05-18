@@ -20,7 +20,6 @@ from menu.views import page_not_found
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('single_receipt/', include('single_receipt.urls')),
     path('multiple_receipt/',include('multiple_receipt.urls')),
     path('', include('menu.urls'))
 
